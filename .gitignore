@@ -169,3 +169,14 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# uploads
+*.pdf
+*.docx
+*.doc
+*.xls
+*.xlsx
+*.csv
+*.ppt
+*.pptx
+
