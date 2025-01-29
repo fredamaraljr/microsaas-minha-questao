@@ -3,6 +3,7 @@ from PyPDF2 import PdfReader
 import os
 from openai import OpenAI
 from dotenv import load_dotenv
+from transformers import AutoTokenizer
 
 # Carrega as variáveis de ambiente
 load_dotenv()
@@ -14,6 +15,11 @@ if not API_KEY or not BASE_URL:
 # Caminho absoluto para o diretório frontend
 FRONTEND_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'frontend'))
 
+# Carrrega o tokenizer
+tokenizer = AutoTokenizer.from_pretrained("./", trust_remote_code=True)
+
+def contar_tokens(texto):
+    return len(tokenizer.encode(texto))
 # Configuração do Flask
 app = Flask(__name__,
             template_folder=os.path.join(FRONTEND_DIR, 'templates'),
@@ -31,6 +37,8 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # Rota para receber uploads de arquivos
 @app.route('/upload', methods=['POST'])
+
+
 def upload_file():
     if 'file' not in request.files:
         return jsonify({"error": "Nenhum arquivo enviado"}), 400
@@ -46,12 +54,14 @@ def upload_file():
     # Extrai o texto do PDF
     text = extract_text_from_pdf(file_path)
 
-    print(text)
+     # Conta os tokens
+    num_tokens = contar_tokens(text)
     
     return jsonify({
         "message": "Arquivo enviado com sucesso!",
         "file_path": file_path,
-        "text": text  # Retorna o texto extraído
+        "text": text,
+        "num_tokens": num_tokens  # Retorna o texto extraído
     }), 200
 
 def extract_text_from_pdf(file_path):
