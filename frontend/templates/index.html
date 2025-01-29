@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filtro de Questões de Concurso</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        button {
+            width: 200px;
+        }
+        #result {
+            margin-top: 20px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>Filtro de Questões de Concurso</h1>
+    <form id="uploadForm">
+        <label for="pdfFile">Escolha um arquivo PDF:</label>
+        <input type="file" id="pdfFile" accept=".pdf" required>
+        <input type="text" id="subject" placeholder="Assunto" required>
+        <button type="submit">Filtrar Questões</button>
+    </form>
+    <div id="result"></div>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    
+</body>
+</html>
